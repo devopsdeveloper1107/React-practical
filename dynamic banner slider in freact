@@ -1,6 +1,6 @@
 Click here for video Link: https://www.youtube.com/watch?v=Zjk1TkUqATA&t=351s
 
-<!---state manner dynamic code --->
+<!---state banner dynamic code --->
 
 import React,{ useState, useEffect } from "react";
 
