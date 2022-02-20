@@ -1,0 +1,62 @@
+Click here for video: https://www.youtube.com/watch?v=2M7We-nt7dw&t=2s
+
+********************* start here react code ******************************
+
+import React, { useState} from "react";
+import { Container } from "react-bootstrap";
+
+function ShowhideFunctional() {
+ const [visible, setVisible]=useState(false);
+   
+
+  return (
+    <Container>
+      <div className="row">
+        <div className="col-sm-6">
+          <h4 className="mt-3 mb-5 fw-bold text-center">
+            Output
+          </h4>
+
+          <div className="form-group row">
+            <label className="col-sm-3 col-form-label">Name</label>
+            <div className="col-sm-6">
+              <input  type="text"  className="form-control" id="inputPassword" placeholder="Enter Name" />
+            </div>
+          </div>
+
+          <div className="form-group row">
+            <label className="col-sm-3 col-form-label">Full Address</label>
+            <div className="col-sm-2 mt-2">
+              Yes <input type="radio" className="mx-2" name="isyes" value="1" onClick={ ()=>setVisible(true)} />
+            </div>
+            <div className="col-sm-2 mt-2"> 
+            No <input type="radio" className="mx-2 mt-1" name="isyes" value="0" onClick={ ()=>setVisible(false)} />
+            </div>
+          </div>
+         
+             { visible &&
+
+            <div className="form-group row">
+            <label className="col-sm-3 col-form-label">Address</label>
+            <div className="col-sm-6">
+              <textarea type="text"  className="form-control" id="msg" name="msg" placeholder="Enter Address" />
+            </div>
+            </div>
+
+             }
+        
+
+          <div className="form-group row mt-5 text-center">
+            <label className="col-sm-2 col-form-label"></label>
+            <div className="col-sm-6 mt-2">
+              <button name="button" className="btn btn-primary btn-lg">
+                 Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  );
+}
+export default ShowhideFunctional;
