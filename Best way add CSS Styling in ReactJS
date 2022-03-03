@@ -1,0 +1,32 @@
+import React, {  } from 'react';
+import { Container } from 'react-bootstrap';
+import mytest from './Mytest.module.css';
+
+function Aboutus(){        
+    const test = { padding:"20px", color:"white"}  
+     return (
+            <React.Fragment>
+                <Container>
+                    <div className='row fthight'>
+                        <div className='col-sm-6  mt-3'>
+                          <h4>1- Inline CSS </h4>
+                         <p style={ { fontSize:"40px", color:"red" }}>Hello, David how are you?</p>
+
+                         <p style={ test}>I am here!</p>
+                           </div>   
+
+                          <div className='col-sm-6 mt-3'>
+                              <h5 className='mytest'>Hello , Sam how are you?</h5>
+                          </div>
+
+                          <div className='col-sm-6 mt-3'>
+                              <h5 className={ mytest.Redbg}>Hello , Frank how are you?</h5>
+                          </div>
+
+                  </div>
+                </Container>
+            </React.Fragment>
+
+        );  
+}
+export default Aboutus;
