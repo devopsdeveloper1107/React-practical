@@ -1,0 +1,78 @@
+
+
+import React from 'react';
+import { Container } from 'react-bootstrap';
+
+class Showhide extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { value: '' }
+
+    }
+    onchange = e => {
+        this.setState({ value: e.target.value });
+
+    }
+
+    render() {
+        const { value } = this.state;
+        
+        return (
+            <React.Fragment>
+                <Container>
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <h4 className='mt-3 text-center mb-3'>Output  </h4>
+                            
+                            <div className="form-group row">
+                                <label className="col-sm-3 col-form-label">Name</label>
+                                <div className="col-sm-6">
+                                    <input type="text" className="form-control" id="inputPassword" placeholder="Enter Name" />
+                                </div>
+                            </div>
+
+                            <div className="form-group row">
+                                <label className="col-sm-3 col-form-label">Full Address</label>
+                                <div className="col-sm-2 mt-2">Yes
+                                    <input type="radio" className="mx-2" name='isyes' value="1" onChange={this.onchange} />
+                                </div>
+                                <div className="col-sm-2 mt-2">No
+                                    <input type="radio" className="mx-2 mt-1" name='isyes' value="0" onChange={this.onchange} />
+                                </div>
+                            </div>
+
+                            {value === '1' && (
+                                <div className="form-group row mb-3">
+                                    <label className="col-sm-3 col-form-label">Full details</label>
+                                    <div className="col-sm-6">
+                                        <textarea type="text" className="form-control" id="details" placeholder="Enter Details" />
+                                    </div>
+                                </div>
+                            )}
+
+                            {value === '1' && (
+                                <div className="form-group row">
+                                    <label className="col-sm-3 col-form-label">Email</label>
+                                    <div className="col-sm-6">
+                                        <input type="text" className="form-control" id="Email" placeholder="Enter Email" />
+                                    </div>
+                                </div>
+
+                            )}
+
+                            <div className="form-group row mt-5 text-center">
+                                <label className="col-sm-2 col-form-label"></label>
+                                <div className="col-sm-6 mt-2">
+                                    <button name='button' className="btn btn-primary btn-lg"> Submit </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </Container>
+            </React.Fragment>
+        );
+    }
+}
+export default Showhide;
