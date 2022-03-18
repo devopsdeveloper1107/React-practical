@@ -1,0 +1,84 @@
+import React, { useState, useEffect } from "react";
+
+import { Container } from "react-bootstrap";
+
+function Search() {
+  const [allcountry, setAllcountry] = useState([]);
+  const [filterresult, setFilterresult] = useState([]);
+  const [serachcountry, setSearchcountry] = useState("");
+
+  const handlesearch = (event) => {
+    const search = event.target.value;
+    console.log(search);
+    setSearchcountry(search);
+
+    if (search !== "") {
+      const filterdata = allcountry.filter((item) => {
+        return Object.values(item)
+          .join("")
+          .toLowerCase()
+          .includes(search.toLowerCase());
+      });
+      setFilterresult(filterdata);
+    } else {
+      setFilterresult(allcountry);
+    }
+  };
+
+  useEffect(() => {
+    const getcountry = async () => {
+      const getres = await fetch("http://localhost/devopsdeveloper/country");
+      const setcounty = await getres.json();
+      //console.log(setcounty);
+      setAllcountry(await setcounty);
+    };
+    getcountry();
+  }, []);
+
+  return (
+    <React.Fragment>
+      <Container>
+        <div className="row fthight">
+          <div className="col-md-6 mb-3 mt-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter Keyword"
+              onChange={(e) => {
+                handlesearch(e);
+              }}
+            />
+            <table className="table " style={{ color: "#fff" }}>
+              <thead>
+                <tr>
+                  <th>Sr. No </th>
+                  <th>Country Codeo</th>
+                  <th>Country Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                {serachcountry.length > 1
+                  ? filterresult.map((filtercountry, index) => (
+                      <tr key={index}>
+                        <td> {filtercountry.country_id} </td>
+                        <td> {filtercountry.sortname} </td>
+                        <td> {filtercountry.country_name} </td>
+                      </tr>
+                    ))
+                  : allcountry.map((getcon, index) => (
+                      <tr key={index}>
+                        <td> {getcon.country_id} </td>
+                        <td> {getcon.sortname} </td>
+                        <td> {getcon.country_name} </td>
+                      </tr>
+                    ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </Container>
+    </React.Fragment>
+  );
+}
+
+export default Search;
