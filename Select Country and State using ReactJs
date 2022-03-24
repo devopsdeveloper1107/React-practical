@@ -63,7 +63,7 @@ function Country() {
                    <option>--Select State--</option>
                    {
                      stetes.map( (st,index)=>(                    
-                   <option key={index}>{ st.state_name}</option>
+                   <option key={index} value={st.state_id}>{ st.state_name}</option>
                      ))
                      }
                  </select>
