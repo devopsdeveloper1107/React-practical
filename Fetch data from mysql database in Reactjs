@@ -1,0 +1,55 @@
+import React, { useState, useEffect } from "react";
+import { Container } from "react-bootstrap";
+
+function Home() {
+  const [category, setCategory] = useState([]);
+
+  useEffect(() => {
+    const getcategory = async () => {
+      const res = await fetch("http://localhost/devopsdeveloper/category");
+      const getdata = await res.json();
+      setCategory(getdata);
+      // console.log(getdata);
+    };
+
+    getcategory();
+  },[]);
+
+
+  return (
+    <React.Fragment>
+      <Container>
+        <div className="row">
+          <div className="col-sm-8 text-success">
+            <h5 className="p-3 fw-bold text-white">
+              Fetch Data from MYSQL Database in Reactjs
+            </h5>
+          
+            <table className="table table-bordered text-white">
+              <thead>
+                <tr>
+                  <th>Ctaegoty Title</th>
+                  <th>Category Heading</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {category.map((getcate) => (
+                  <tr key={getcate.category_id}>
+                    <td>{getcate.category_title}</td>
+                    <td> {getcate.category_heading}</td>
+                    <td> {getcate.category_status}</td>
+                    <td><button href="" className="btn btn-success"> View </button> </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>      
+      </Container>
+    </React.Fragment>
+  );
+}
+
+export default Home;
