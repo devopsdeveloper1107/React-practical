@@ -1,0 +1,82 @@
+import React, { useState } from 'react';
+import { Container } from "react-bootstrap";
+
+function Disablesubmitbutton()
+{
+
+  const [username, setUsername]= useState('');
+  const [email, setEmail]= useState('');
+  const [gender, setGender]= useState('');
+  const [disable, setDisable]= useState(0);
+
+  const handleusername =(e)=>{
+    const getUsername= e.target.value;
+    setUsername(getUsername);
+  }
+
+  const handleemail =(e)=>{
+    const getEmail= e.target.value;
+    setEmail(getEmail);
+  }
+
+  const handlegender =(e)=>{
+    const getGender= e.target.value;
+    setGender(getGender);
+  }
+
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    console.log(`Get Username ${username} ${email} and ${gender}`);
+    setDisable(true);
+   // const object={username:username, useremail:email, gender:gender};
+    // const req= axios.post("https://test.com/user/",{ boject});
+
+  }
+
+return(<React.Fragment>
+         <Container className="content">
+        <div className="row">
+          <div className="col-sm-12">
+         <h3 className='mt-3'>Post Form Data and Disable Submit Button in React js</h3>
+         <form className="row g-3" onSubmit={handleSubmit}>
+
+              <div className="col-md-3">
+                <label  className="form-label"> Username</label>            
+                    <div className="text-dark"> 
+                        <input className='form-control'  placeholder="Enter Username" onChange={(e)=>handleusername(e)}  />            
+                    </div>
+                    </div>
+                    <div className="col-md-3">
+                <label  className="form-label"> Email</label>            
+                    <div className="text-dark"> 
+                        <input className='form-control'  placeholder="Enter Email" onChange={(e)=>handleemail(e)} />            
+                    </div>
+                    </div>
+
+             <div className="col-md-3">
+                <label  className="form-label">Gender </label>            
+                    <div className="text-dark"> 
+                      <select  className='form-control' onChange={(e)=>handlegender(e)} >
+                        <option value="">--Please Select--</option>
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                        <option value="3">Other</option>
+                      </select>                      
+                    </div>
+                    </div>
+                    <div className="col-md-2" style={{padding:'9px'}}>
+                      <label  className="form-label"> </label>            
+                    <div className="text-dark"> 
+                      <button name='submit' className='btn btn-success' disabled={disable}>Submit</button>
+                     </div>
+                    </div>
+
+        </form>
+        </div>
+        </div>
+        </Container>
+       
+    </React.Fragment>);
+}
+
+export default Disablesubmitbutton;
