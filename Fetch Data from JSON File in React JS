@@ -1,0 +1,51 @@
+import React from "react";
+import { Container } from "react-bootstrap";
+
+import Userdata from './../userdata.json';
+
+
+
+function Fetchjsondata()
+{
+return(
+    <React.Fragment>
+        <Container className="content">
+        <div className="row">
+          <div className="col-sm-8">
+         <h3 className='mt-3'>Fetch Data from JSON File</h3>
+         <table className="table text-white table-bordered mt-2">
+              <thead>
+                <tr>              
+                  <th scope="col">Sr. No.</th>
+                  <th scope="col">User Name</th>
+                  <th scope="col">User Email</th>
+                  <th scope="col">Mobile No</th>       
+                </tr>
+              </thead>
+              <tbody> 
+                {
+                    Userdata.map( (users, index)=>(
+                    <tr key={index}>                 
+                  <th>{ index+1}</th>
+                  <td>{ users.name} </td>
+                  <td>{ users.email} </td>
+                  <td>{ users.phone} </td>                 
+                </tr>
+
+                    ))
+
+
+
+                }             
+                
+              
+              </tbody>
+            </table>
+        </div>
+        </div>
+     </Container>
+    </React.Fragment>
+);
+}
+
+export default Fetchjsondata;
