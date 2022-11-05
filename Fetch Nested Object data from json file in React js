@@ -1,0 +1,57 @@
+import React from "react";
+import { Container } from "react-bootstrap";
+import nestedobjectdata from './../Nestedobjectdata.json';
+
+
+
+function Fetchnestedobjectdata() {
+    return(
+        <React.Fragment>
+             <Container>
+             <div className="row fthight">
+          <div className="col-md-11 mb-3 mt-3">
+          <h3 className='mt-3 mb-4'>Fetch Nested Object data from json file in React js</h3>
+           
+               <table class="table">
+               <thead>
+               <tr>
+               <th scope="col">Sr.No</th>
+               <th scope="col">Username</th>
+               <th scope="col">Email</th>
+               <th scope="col">City</th>
+               <th scope="col">Zip Code</th>
+               </tr>
+               </thead>
+               <tbody>
+               
+               { nestedobjectdata.length >1 ? nestedobjectdata.map( (udata, index)=>(
+               <tr key={index}>
+               <th scope="row">{ index+1 }</th>
+               <td>{udata.username } </td>
+               <td>{udata.email } </td>
+               <td>{udata.address.city } </td>
+               <td>{udata.address.zipcode } </td>
+               </tr>
+              )):(
+               <tr>
+                  <td colSpan={5}>Records Not Found</td>
+               </tr>
+              )
+
+                 }
+
+              
+              
+               </tbody>
+               </table>
+          </div>
+          </div>
+             </Container>
+        </React.Fragment>
+    );
+
+
+}
+
+
+export default Fetchnestedobjectdata;
