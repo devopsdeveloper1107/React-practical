@@ -1,0 +1,86 @@
+import React, { useState, useEffect } from "react";
+import { Container } from "react-bootstrap";
+import axios from "axios";
+
+function Countryapi() {
+  const [countrydata, setCountrydata]= useState([]);
+  const [countryid, setCountryid]= useState('');
+  const [statedata, setStatedata]= useState([]);
+  const [stateid, setStateid]= useState('');
+  const [enable, setEnable]= useState(true);
+  useEffect( ()=>{
+    const getCountry = async()=>{
+      const reqdata= await fetch("http://localhost/devopsdeveloper/Countryapi/countrydata");
+      const resdata= await reqdata.json();
+      //console.log(resdata);
+      setCountrydata(resdata);
+    }
+    getCountry();
+  },[]);
+  const handlecountry =async(e)=>{
+    const countryid= e.target.value;
+    if(countryid!=='')
+    { 
+      const reqstatedata= await fetch("http://localhost/devopsdeveloper/Countryapi/statedata/"+countryid);
+      const resstatedata= await reqstatedata.json();
+      setStatedata(await resstatedata);
+      setCountryid(countryid);
+      setEnable(false);      
+    } else {    
+      setStatedata([]);
+      setEnable(true); 
+    }
+    //console.log(countryid);
+  }
+
+  const handlestate= (e)=>{
+    const getstateid= e.target.value;
+    setStateid(getstateid);
+  }
+  const handleSubmit =(e)=>{
+    e.preventDefault();
+    const counrtyState={ countryid:countryid, stateid:stateid};
+    axios.post("http://localhost/devopsdeveloper/Countryapi/countrystatedata", counrtyState)
+    .then(result=>{console.log(result)}); 
+  }
+     
+  return (
+    <Container className="content">
+     <div className="row">
+       <div className="col-sm-12">
+         <h2 className="mt-4 mb-4 fw-bold">Select Country and State using ReactJs</h2>
+           <form onSubmit={ handleSubmit}>
+             <div className="row mb-3">
+                 <div className="form-group col-md-4">
+                 <label className="mb-2">Country</label>
+                 <select name="country" className="form-control p-2" onChange={(e)=>handlecountry(e)}>
+                   <option value="">--Select Country--</option>
+                 {
+                  countrydata.map( (getcountry, index)=>(
+                    <option key={index} value={getcountry.country_id}> { getcountry.country_name } </option>
+                  ))
+                 }                 
+                 </select>
+               </div>
+               <div className="form-group col-md-4">
+               <label className="mb-2">State</label>
+               <select name="state" className="form-control p-2" disabled={enable} onChange={(e)=>handlestate(e)}>
+                   <option>--Select State--</option>
+                   {
+                    statedata.map( (getstate, index)=>(
+                      <option key={index} value={ getstate.state_id}> { getstate.state_name} </option>
+                    ))
+                   }
+                 </select>
+               </div>
+               <div className="form-group col-md-2 mt-4">              
+               <button name="submit" className="btn btn-success btn-lg p-1 mt-2" >Submit</button>               
+               </div>
+            </div>
+            </form>               
+       </div>
+     </div>
+    </Container>
+  );
+}
+export default Countryapi;
