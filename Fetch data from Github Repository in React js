@@ -1,0 +1,53 @@
+import React, { useState, useEffect} from "react";
+import { Container } from "react-bootstrap";
+
+function Fetchdatafromgithub() {
+const [userData, setUserdata]= useState([]);
+
+useEffect( ()=>{
+   const getUserdata= async()=>{
+      const reqData= await fetch("https://raw.githubusercontent.com/devopsdeveloper1107/jsonfile/main/userData");
+      const resData= await reqData.json();
+      //console.log(resData);
+      setUserdata(resData);
+   }
+   getUserdata();
+},[]);
+    return(
+        <React.Fragment>
+         <Container>
+         <div className="row fthight">
+          <div className="col-md-10 mb-3 mt-3">
+          <h3 className='mt-3 mb-4'>Fetch data from Github Repository in React js</h3>
+            <table className="table">
+            <thead>
+            <tr>               
+            <th>Sr. No</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {
+               userData.map( (getusers, index)=>(
+                  <tr key={index}>              
+                  <td>{index+1 } </td>
+                  <td>{ getusers.user_name } </td>
+                  <td>{ getusers.user_email } </td>
+                  <td>{ getusers.user_address} </td>
+                  <td><button className="btn btn-danger">Delete</button></td>
+                  </tr>
+               ))
+            }      
+            </tbody>
+            </table>
+          </div>
+          </div>
+         </Container>
+        </React.Fragment>
+    );
+    }
+
+export default Fetchdatafromgithub;
