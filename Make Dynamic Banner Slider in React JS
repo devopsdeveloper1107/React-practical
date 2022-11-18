@@ -1,0 +1,47 @@
+import React,{ useEffect, useState } from "react";
+//import Banner1 from './../../banner1.png';
+//import Banner2 from './../../banner2.png';
+
+function Banner()
+{
+const [banner, setBanner] =useState([]);
+ useEffect( ()=>{
+  const getBanner= async()=>{
+    const reqData= await fetch("http://localhost/devopsdeveloper/banner");
+    const resData= await reqData.json();
+    //console.log(resData);
+    setBanner(resData);
+  }
+getBanner();
+ },[]);
+
+ return(
+  <React.Fragment>
+  
+   <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
+   <div className="carousel-inner">   
+  {
+    banner.map( (banners, index)=>(
+    <div className={ index===0? "carousel-item active":"carousel-item" } key={banners.ban_id }>
+      <img src={ `http://localhost/devopsdeveloper/uploads/banner/${banners.banner_image }`} className="d-block w-100" alt='...'/>
+    </div>
+    ))
+}
+
+    
+        
+  </div>
+  <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span className="visually-hidden">Previous</span>
+  </button>
+  <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+    <span className="visually-hidden">Next</span>
+  </button>
+</div>
+  </React.Fragment>
+
+ );
+}
+export default Banner;
