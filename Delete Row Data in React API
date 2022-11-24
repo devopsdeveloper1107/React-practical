@@ -1,0 +1,162 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {Link} from 'react-router-dom';
+import { Container } from "react-bootstrap";
+
+function User() {
+  const [username, setUsername] = useState("");
+  const [useremail, setUseremail] = useState("");
+  const [useraddress, setUseraddress] = useState("");
+  const [message, setMessage] = useState("");
+  const [userdata, setUserdata]= useState([]);
+    const handleusername = (event) => {
+    const user_name = event.target.value;
+    console.log(user_name);
+    setUsername(user_name);
+  };
+
+  const handleemail = (event) => {
+    const user_email = event.target.value;
+    console.log(user_email);
+    setUseremail(user_email);
+  };
+
+  const handleaddress = (event) => {
+    const user_address = event.target.value;
+    console.log(user_address);
+    setUseraddress(user_address);
+  };
+
+  const submitUser = async (e) => {
+    e.preventDefault();
+    const userdata = {
+      user_name: username,
+      user_email: useremail,
+      user_address: useraddress,
+    };
+    await axios
+      .post(
+        "http://localhost/devopsdeveloper/user/adduser",
+        JSON.stringify(userdata)
+      )
+      .then((result) => {
+        setMessage(result.data.msg);
+        console.log(result.data);
+        console.log(result.data.msg);
+      });
+  };
+
+  useEffect( ()=>{
+  const getuserdata= async()=>{
+    const requser= await fetch('http://localhost/devopsdeveloper/user/getuser/');
+    const resuser= await requser.json();
+    console.log(resuser);
+    setUserdata( await resuser);
+  }
+  getuserdata();
+
+  },[]);
+
+  const handleChange = async (userid)=>{
+    console.log(userid);
+    const reqdelete= await fetch(`http://localhost/devopsdeveloper/user/userdelete/${userid}`);
+    const resdelete= await reqdelete.json();
+    console.log(resdelete);
+    setMessage(resdelete.msg);
+  }
+
+  return (
+    <React.Fragment>
+      <Container className="content">
+        <div className="row">
+          <div className="col-sm-12">
+            <h2 className="mt-4 mb-4 fw-bold">
+              Insert , Update and Delete records in React Js  
+            </h2>
+
+            {message ? (
+              <div className="text-success text-white">
+                {" "}
+                <h5>{message} </h5>
+              </div>
+            ) : (
+              <></>
+            )}
+
+            <form onSubmit={submitUser} className="row g-3">
+              <div className="col-md-3">
+                <label className="form-label">User Name </label>
+                <input
+                  type="text"
+                  name="user_name"
+                  className="form-control p-2"
+                  onChange={(e) => handleusername(e)}
+                />
+              </div>
+
+              <div className="col-md-3">
+                <label className="form-label">Email</label>
+                <input
+                  type="text"
+                  name="user_email"
+                  className="form-control p-2"
+                  onChange={(e) => handleemail(e)}
+                />
+              </div>
+
+              <div className="col-md-3">
+                <label className="form-label">Address</label>
+                <input
+                  type="text"
+                  name="user_address"
+                  className="form-control p-2"
+                  onChange={(e) => handleaddress(e)}
+                />
+              </div>
+
+              <div className="col-md-3">
+                <button type="submit" className="btn btn-primary mt-4">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div className="col-sm-12 mt-5">
+       
+            <table className="table text-white table-bordered mt-2">
+              <thead>
+                <tr>
+               
+                  <th scope="col">Sr. No.</th>
+                  <th scope="col">User Name</th>
+                  <th scope="col">User Email</th>
+                  <th scope="col">User Address</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                { userdata.map( (getusertbl, index)=>(
+                <tr key={index}>                 
+                  <th scope="row">{ index+1}</th>
+                  <td>{ getusertbl.user_name }</td>
+                  <td>{ getusertbl.user_email }</td>
+                  <td>{ getusertbl.user_address }</td>
+                  <td> 
+                     <Link to={`/useredit/${ getusertbl.user_id}`} className="btn btn-success mx-2">Edit</Link>
+                     <button className="btn btn-danger" onChange={ ()=>handleChange(getusertbl.user_id)}> Delete</button> 
+                     </td>
+                </tr>
+                 ) )
+
+              } 
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </Container>
+    </React.Fragment>
+  );
+}
+
+export default User;
