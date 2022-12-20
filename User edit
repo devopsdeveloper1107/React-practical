@@ -1,0 +1,101 @@
+
+import React ,{ useState, useEffect }from "react";
+import { useHistory,useParams} from 'react-router-dom';
+import { Container } from "react-bootstrap";
+import axios from "axios";
+
+function Useredit()
+{ 
+const [useredit, setUseredit]= useState({user_name:'', user_email:'', user_address:''});
+const [msg, setMsg]= useState('');
+const history= useHistory();
+const {id} = useParams();
+
+useEffect( ()=>{
+  const edituserid = async()=>{
+      const reqdata= await fetch(`http://localhost/devopsdeveloper/user/useredit/${id}`);
+      const res = await reqdata.json();
+      setUseredit(await res);
+  }
+  edituserid();
+},[]);
+
+
+const handleEdit =(e)=>{
+    setUseredit({...useredit, [e.target.name]:e.target.value});  
+
+}
+
+const handleUserupdate= async (e)=>{
+    e.preventDefault();
+    const response= await axios.post(`http://localhost/devopsdeveloper/user/updateuser/${id}`, useredit);
+    setMsg(response.data.msg);
+    
+    setTimeout( ()=>{
+        history.push("/user");
+    }, 2000);
+
+
+
+
+
+}
+
+    return(
+        <React.Fragment>
+           <Container className="content">
+           <div className="row">
+          <div className="col-sm-12">
+            <h2 className="mt-4 mb-4 fw-bold">
+              Insert , Update and Delete records in React Js  
+            </h2>
+               <p className="text-danger"> { msg }</p>
+            <form onSubmit={ handleUserupdate } className="row g-3">
+              <div className="col-md-3">
+                <label className="form-label">User Name </label>
+                <input
+                  type="text"
+                  name="user_name"
+                  className="form-control p-2"
+                  value={useredit.user_name}
+                  onChange={(e)=>handleEdit(e)}
+                
+                />
+              </div>
+
+              <div className="col-md-3">
+                <label className="form-label">Email</label>
+                <input
+                  type="text"
+                  name="user_email"
+                  className="form-control p-2"
+                  value={useredit.user_email}
+                  onChange={(e)=>handleEdit(e)}
+                />
+              </div>
+
+              <div className="col-md-3">
+                <label className="form-label">Address</label>
+                <input
+                  type="text"
+                  name="user_address"
+                  className="form-control p-2"
+                  value={useredit.user_address}
+                  onChange={(e)=>handleEdit(e)}
+                />
+              </div>
+
+              <div className="col-md-3">
+                <button type="submit" className="btn btn-primary mt-4">
+                  Update
+                </button>
+              </div>
+            </form>
+
+            </div>
+            </div>
+           </Container>
+        </React.Fragment>
+    );
+}
+export default Useredit;
